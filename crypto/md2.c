@@ -45,7 +45,7 @@
  * This code is only here to enable the verification of Verisign root
  * certificates. So only enable it for verification mode.
  */
-#ifdef CONFIG_SSL_CERT_VERIFICATION
+#if defined(CONFIG_SSL_CERT_VERIFICATION) && !defined(CONFIG_PLATFORM_ESP8266)
 
 static const uint8_t PI_SUBST[256] =
 {

@@ -28,7 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(CONFIG_NO_TLS1_SVR)
+#if defined(CONFIG_TLS1_SVR)
 #include "os_port.h"
 #include <stdlib.h>
 #include <string.h>

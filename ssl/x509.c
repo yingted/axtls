@@ -139,6 +139,7 @@ int x509_new(const uint8_t *cert, int *len, X509_CTX **ctx)
         SHA1_Final(sha_dgst, &sha_ctx);
         x509_ctx->digest = bi_import(bi_ctx, sha_dgst, SHA1_SIZE);
     }
+#if !defined(CONFIG_PLATFORM_ESP8266)
     else if (x509_ctx->sig_type == SIG_TYPE_MD2)
     {
         MD2_CTX md2_ctx;
@@ -148,6 +149,7 @@ int x509_new(const uint8_t *cert, int *len, X509_CTX **ctx)
         MD2_Final(md2_dgst, &md2_ctx);
         x509_ctx->digest = bi_import(bi_ctx, md2_dgst, MD2_SIZE);
     }
+#endif
 
     if (cert[offset] == ASN1_V3_DATA)
     {
