@@ -1418,9 +1418,13 @@ static int do_handshake(SSL *ssl, uint8_t *buf, int read_len)
         add_packet(ssl, buf, hs_len); 
 
 #if defined(CONFIG_SSL_ENABLE_CLIENT)
+#if defined(CONFIG_PLATFORM_ESP8266)
+    ret = do_clnt_handshake(ssl, handshake_type, buf, hs_len);
+#else
     ret = is_client ? 
         do_clnt_handshake(ssl, handshake_type, buf, hs_len) :
         do_svr_handshake(ssl, handshake_type, buf, hs_len);
+#endif
 #else
     ret = do_svr_handshake(ssl, handshake_type, buf, hs_len);
 #endif
