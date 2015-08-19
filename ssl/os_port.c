@@ -33,11 +33,11 @@
  *
  * OS specific functions.
  */
+#include "os_port.h"
 #include <time.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <stdarg.h>
-#include "os_port.h"
 
 #ifdef WIN32
 /**
@@ -93,6 +93,9 @@ EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size)
 #undef malloc
 #undef realloc
 #undef calloc
+#if defined(CONFIG_PLATFORM_ESP8266)
+#define calloc(nmemb,size) pvPortCalloc(nmemb,size)
+#endif
 
 static const char * out_of_mem_str = "out of memory";
 static const char * file_open_str = "Could not open file \"%s\"";
@@ -132,6 +135,12 @@ EXP_FUNC void * STDCALL ax_calloc(size_t n, size_t s)
     return x;
 }
 
+#if defined(CONFIG_PLATFORM_ESP8266)
+void os_port_exit_now() {
+    system_restart();
+    for (;;);
+}
+#else
 EXP_FUNC int STDCALL ax_open(const char *pathname, int flags)
 {
     int x;
@@ -156,3 +165,4 @@ void exit_now(const char *format, ...)
     abort();
 }
 
+#endif

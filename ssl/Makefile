@@ -61,6 +61,9 @@ TARGET2=$(AXTLS_HOME)/$(STAGE)/axtls.dll
 STATIC_LIB=$(AXTLS_HOME)/$(STAGE)/axtls.static.lib
 CRYPTO_PATH=$(AXTLS_HOME)\\crypto\\
 endif
+ifdef CONFIG_PLATFORM_ESP8266
+TARGET2=
+endif
 
 libs: $(TARGET1) $(TARGET2)
 

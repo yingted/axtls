@@ -44,6 +44,7 @@ extern "C" {
 #if defined(CONFIG_PLATFORM_ESP8266)
 /* Header problems */
 #define _STDINT_H
+#define _SYS_ERRNO_H_
 #endif
 
 #include "os_int.h"
@@ -131,6 +132,17 @@ EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size);
 #include <lwip/tcp.h>
 typedef unsigned long long int uint64_t;
 typedef long long int int64_t;
+#include <sys/time.h>
+#include <stdlib.h>
+#define SOCKET_WRITE(fd,buf,len) 0 // ...
+#define select(nfds,readfds,writefds,exceptfds,timeout) 0 // ...
+#define SOCKET_READ(fd,buf,len) 0 // ...
+#define printf(fmt,...)
+#define TTY_FLUSH()
+#define errno os_port_impure_errno
+extern int os_port_impure_errno; // ...
+#define exit_now(...) os_port_exit_now()
+#define abort() exit_now()
 
 #else   /* Not Win32 */
 

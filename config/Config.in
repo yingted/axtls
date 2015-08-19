@@ -24,6 +24,7 @@ config CONFIG_PLATFORM_WIN32
 
 config CONFIG_PLATFORM_ESP8266
     bool "ESP8266 RTOS"
+    select CONFIG_USE_DEV_URANDOM
 
 endchoice 
 
