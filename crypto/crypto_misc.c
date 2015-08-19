@@ -42,7 +42,7 @@
 #include "wincrypt.h"
 #endif
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(CONFIG_PLATFORM_ESP8266)
 static int rng_fd = -1;
 #elif defined(CONFIG_WIN32_USE_CRYPTO_LIB)
 static HCRYPTPROV gCryptProv;
@@ -103,7 +103,9 @@ int get_file(const char *filename, uint8_t **buf)
  */
 EXP_FUNC void STDCALL RNG_initialize()
 {
-#if !defined(WIN32) && defined(CONFIG_USE_DEV_URANDOM)
+#if defined(CONFIG_PLATFORM_ESP8266)
+	// ESP8266's RNG is initialized elsewhere
+#elif !defined(WIN32) && defined(CONFIG_USE_DEV_URANDOM)
     rng_fd = ax_open("/dev/urandom", O_RDONLY);
 #elif defined(WIN32) && defined(CONFIG_WIN32_USE_CRYPTO_LIB)
     if (!CryptAcquireContext(&gCryptProv, 
@@ -147,7 +149,9 @@ EXP_FUNC void STDCALL RNG_custom_init(const uint8_t *seed_buf, int size)
 EXP_FUNC void STDCALL RNG_terminate(void)
 {
 #ifndef WIN32
+#ifndef CONFIG_PLATFORM_ESP8266
     close(rng_fd);
+#endif
 #elif defined(CONFIG_WIN32_USE_CRYPTO_LIB)
     CryptReleaseContext(gCryptProv, 0);
 #endif
@@ -159,8 +163,12 @@ EXP_FUNC void STDCALL RNG_terminate(void)
 EXP_FUNC void STDCALL get_random(int num_rand_bytes, uint8_t *rand_data)
 {   
 #if !defined(WIN32) && defined(CONFIG_USE_DEV_URANDOM)
+#ifdef CONFIG_PLATFORM_ESP8266
+	os_get_random(rand_data, num_rand_bytes);
+#else
     /* use the Linux default */
     read(rng_fd, rand_data, num_rand_bytes);    /* read from /dev/urandom */
+#endif
 #elif defined(WIN32) && defined(CONFIG_WIN32_USE_CRYPTO_LIB)
     /* use Microsoft Crypto Libraries */
     CryptGenRandom(gCryptProv, num_rand_bytes, rand_data);

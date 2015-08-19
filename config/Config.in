@@ -27,6 +27,12 @@ config CONFIG_PLATFORM_ESP8266
 
 endchoice 
 
+config ESP8266_RTOS_SDK_INCLUDE_DIR
+    string "ESP8266 SDK path"
+    depends on CONFIG_PLATFORM_ESP8266
+    help
+      Define where the ESP8266 include/lwip/* headers are.
+
 menu "General Configuration"
 
 config PREFIX

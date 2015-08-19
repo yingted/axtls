@@ -41,6 +41,11 @@
 extern "C" {
 #endif
 
+#if defined(CONFIG_PLATFORM_ESP8266)
+/* Header problems */
+#define _STDINT_H
+#endif
+
 #include "os_int.h"
 #include <stdio.h>
 
@@ -120,6 +125,12 @@ typedef int socklen_t;
 EXP_FUNC void STDCALL gettimeofday(struct timeval* t,void* timezone);
 EXP_FUNC int STDCALL strcasecmp(const char *s1, const char *s2);
 EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size);
+
+#elif defined(CONFIG_PLATFORM_ESP8266)
+
+#include <lwip/tcp.h>
+typedef unsigned long long int uint64_t;
+typedef long long int int64_t;
 
 #else   /* Not Win32 */
 
