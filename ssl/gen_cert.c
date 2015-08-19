@@ -31,9 +31,9 @@
 #include "config.h"
 
 #ifdef CONFIG_SSL_GENERATE_X509_CERT
+#include "os_port.h"
 #include <string.h>
 #include <stdlib.h>
-#include "os_port.h"
 #include "ssl.h"
 
 /**

@@ -25,14 +25,24 @@ config CONFIG_PLATFORM_WIN32
 config CONFIG_PLATFORM_ESP8266
     bool "ESP8266 RTOS"
     select CONFIG_USE_DEV_URANDOM
+    select CONFIG_NO_FS
 
 endchoice 
+
+config CONFIG_NO_FS
+    bool "No filesystem"
+    default n
+    select CONFIG_SSL_USE_DEFAULT_KEY
 
 config ESP8266_RTOS_SDK_INCLUDE_DIR
     string "ESP8266 SDK path"
     depends on CONFIG_PLATFORM_ESP8266
     help
       Define where the ESP8266 include/lwip/* headers are.
+
+config CONFIG_TLS1_SVR
+    bool "Enable the server"
+    default y
 
 menu "General Configuration"
 

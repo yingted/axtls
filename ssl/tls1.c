@@ -32,11 +32,11 @@
  * Common ssl/tlsv1 code to both the client and server implementations.
  */
 
+#include "os_port.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "os_port.h"
 #include "ssl.h"
 
 /* The session expiry time */

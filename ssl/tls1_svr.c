@@ -28,10 +28,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if !defined(CONFIG_NO_TLS1_SVR)
+#include "os_port.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "os_port.h"
 #include "ssl.h"
 
 static const uint8_t g_hello_done[] = { HS_SERVER_HELLO_DONE, 0, 0, 0 };
@@ -474,4 +475,5 @@ error:
     return ret;
 }
 
+#endif
 #endif

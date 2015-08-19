@@ -143,7 +143,7 @@ typedef long long int int64_t;
 extern int os_port_impure_errno; // ...
 #define exit_now(...) os_port_exit_now()
 #define abort() exit_now()
-
+#define rand() os_random()
 #else   /* Not Win32 */
 
 #include <unistd.h>
@@ -166,6 +166,7 @@ extern int os_port_impure_errno; // ...
 
 #endif  /* Not Win32 */
 
+#if !defined(CONFIG_PLATFORM_ESP8266)
 /* some functions to mutate the way these work */
 #define malloc(A)       ax_malloc(A)
 #ifndef realloc
@@ -177,6 +178,17 @@ EXP_FUNC void * STDCALL ax_malloc(size_t s);
 EXP_FUNC void * STDCALL ax_realloc(void *y, size_t s);
 EXP_FUNC void * STDCALL ax_calloc(size_t n, size_t s);
 EXP_FUNC int STDCALL ax_open(const char *pathname, int flags); 
+#else
+// Call through to FreeRTOS and Espressif APIs
+#define calloc(nmemb,size) pvPortCalloc(nmemb,size)
+#define malloc(size) pvPortMalloc(size)
+#define realloc(ptr,size) pvPortRealloc(ptr,size)
+#define free(ptr) vPortFree(ptr)
+extern void *pvPortCalloc(size_t nmemb, size_t size);
+extern void *pvPortMalloc(size_t size);
+extern void *pvPortRealloc(void *ptr, size_t size);
+extern void vPortFree(void *ptr);
+#endif
 
 #ifdef CONFIG_PLATFORM_LINUX
 void exit_now(const char *format, ...) __attribute((noreturn));

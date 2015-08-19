@@ -28,11 +28,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "os_port.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
-#include "os_port.h"
 #include "ssl.h"
 
 #ifdef CONFIG_SSL_ENABLE_CLIENT        /* all commented out if no client */

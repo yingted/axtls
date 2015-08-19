@@ -57,7 +57,7 @@ static int ssl_obj_PEM_load(SSL_CTX *ssl_ctx, int obj_type,
 EXP_FUNC int STDCALL ssl_obj_load(SSL_CTX *ssl_ctx, int obj_type, 
                             const char *filename, const char *password)
 {
-#ifndef CONFIG_SSL_SKELETON_MODE
+#if !defined(CONFIG_SSL_SKELETON_MODE) && !defined(CONFIG_NO_FS)
     static const char * const begin = "-----BEGIN";
     int ret = SSL_OK;
     SSLObjLoader *ssl_obj = NULL;

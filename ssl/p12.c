@@ -59,10 +59,10 @@
  * -v1 PBE-SHA1-RC4-128 -out axTLS.encrypted.p8
  */
 
+#include "os_port.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "os_port.h"
 #include "ssl.h"
 
 /* all commented out if not used */

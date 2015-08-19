@@ -90,15 +90,16 @@ EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size)
 }
 #endif
 
+#if !defined(CONFIG_PLATFORM_ESP8266)
 #undef malloc
 #undef realloc
 #undef calloc
-#if defined(CONFIG_PLATFORM_ESP8266)
-#define calloc(nmemb,size) pvPortCalloc(nmemb,size)
 #endif
 
+#if !defined(CONFIG_PLATFORM_ESP8266)
 static const char * out_of_mem_str = "out of memory";
 static const char * file_open_str = "Could not open file \"%s\"";
+#endif
 
 /* 
  * Some functions that call display some error trace and then call abort().
