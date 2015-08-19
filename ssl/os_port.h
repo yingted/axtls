@@ -144,6 +144,8 @@ extern int os_port_impure_errno; // ...
 #define exit_now(...) os_port_exit_now()
 #define abort() exit_now()
 #define rand() os_random()
+#define mktime(time) system_mktime(time)
+#define time(where) os_port_time(where)
 #else   /* Not Win32 */
 
 #include <unistd.h>

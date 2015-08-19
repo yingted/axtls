@@ -94,9 +94,7 @@ EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size)
 #undef malloc
 #undef realloc
 #undef calloc
-#endif
 
-#if !defined(CONFIG_PLATFORM_ESP8266)
 static const char * out_of_mem_str = "out of memory";
 static const char * file_open_str = "Could not open file \"%s\"";
 #endif
@@ -141,6 +139,24 @@ void os_port_exit_now() {
     system_restart();
     for (;;);
 }
+
+time_t os_port_time(time_t *time) {
+    time_t ret = system_get_time() / 1000000;
+    if (time != NULL) {
+        *time = ret;
+    }
+    return ret;
+}
+
+int gettimeofday(struct timeval *__restrict tp, struct timezone *tz) {
+    if (tp != NULL) {
+        uint32_t usecs = system_get_time(), sec = usecs / 1000000;
+        tp->tv_sec = CONFIG_BUILD_UNIX_TIME + sec;
+        tp->tv_usec = usecs - sec * 1000000;
+    }
+    return 0;
+}
+
 #else
 EXP_FUNC int STDCALL ax_open(const char *pathname, int flags)
 {
