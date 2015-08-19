@@ -134,13 +134,13 @@ typedef unsigned long long int uint64_t;
 typedef long long int int64_t;
 #include <sys/time.h>
 #include <stdlib.h>
-#define SOCKET_WRITE(fd,buf,len) 0 // ...
-#define select(nfds,readfds,writefds,exceptfds,timeout) 0 // ...
-#define SOCKET_READ(fd,buf,len) 0 // ...
+#define SOCKET_WRITE(fd,buf,len) os_port_socket_write(fd,buf,len)
+#define select(nfds,readfds,writefds,errorfds,timeout) os_port_select(nfds,readfds,writefds,errorfds,timeout)
+#define SOCKET_READ(fd,buf,len) os_port_socket_read(fd,buf,len)
 #define printf(fmt,...)
 #define TTY_FLUSH()
 #define errno os_port_impure_errno
-extern int os_port_impure_errno; // ...
+extern int os_port_impure_errno;
 #define exit_now(...) os_port_exit_now()
 #define abort() exit_now()
 #define rand() os_random()
