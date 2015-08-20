@@ -96,7 +96,7 @@ ifndef CONFIG_PLATFORM_WIN32     # Linux/Unix/Cygwin
 
 $(TARGET1) : $(CRYPTO_OBJ) $(OBJ)
 	$(AR) -r $@ $(CRYPTO_OBJ) $(OBJ)
-	$(CROSS)objdump -h $@ | sed -rn 's/^ *[0-9]+ (\.text\.\S+)\s.*/--rename-section=\1=.irom0\1/p' | xargs -d$$'\n' -r $(CROSS)objcopy $@
+	$(CROSS)objdump -h $@ | sed -rn 's/^ *[0-9]+ (\.(text|literal)\.\S+)\s.*/--rename-section=\1=.irom0\1/p' | xargs -d$$'\n' -r $(CROSS)objcopy $@
 
 $(TARGET2) : $(CRYPTO_OBJ) $(OBJ)
 ifndef CONFIG_PLATFORM_CYGWIN
