@@ -84,6 +84,7 @@ OBJ=\
 	loader.o \
 	openssl.o \
 	os_port.o \
+	mktime.o \
 	p12.o \
 	tls1.o \
 	tls1_svr.o \

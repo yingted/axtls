@@ -133,6 +133,7 @@ EXP_FUNC int STDCALL getdomainname(char *buf, int buf_size);
 typedef unsigned long long int uint64_t;
 typedef long long int int64_t;
 #include <sys/time.h>
+#include <time.h>
 #include <stdlib.h>
 #define SOCKET_WRITE(fd,buf,len) os_port_socket_write(fd,buf,len)
 extern ssize_t os_port_socket_write(int fd, const void *buf, size_t len);
@@ -147,8 +148,11 @@ int os_port_impure_errno;
 #define exit_now(...) os_port_exit_now()
 #define abort() exit_now()
 #define rand() os_random()
-#define mktime(time) system_mktime(time)
 #define time(where) os_port_time(where)
+time_t os_port_time(time_t *time);
+#define mktime(tm) os_port_mktime(tm)
+time_t os_port_mktime(struct tm *tm);
+
 #else   /* Not Win32 */
 
 #include <unistd.h>
