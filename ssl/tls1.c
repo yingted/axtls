@@ -305,6 +305,7 @@ EXP_FUNC int STDCALL ssl_read(SSL *ssl, uint8_t **in_data)
 
 /*
  * Write application data to the client
+ * FIXME This function can only be called when IS_SET_SSL_FLAG(SSL_NEED_RECORD).
  */
 EXP_FUNC int STDCALL ssl_write(SSL *ssl, const uint8_t *out_data, int out_len)
 {
@@ -993,6 +994,7 @@ static int send_raw_packet(SSL *ssl, uint8_t protocol)
         }
     }
 
+    /* FIXME If SSL_NEED_RECORD is currently false, this will break miserably. */
     SET_SSL_FLAG(SSL_NEED_RECORD);  /* reset for next time */
     ssl->bm_index = 0;
 
